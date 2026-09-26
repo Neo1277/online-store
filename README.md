@@ -11,7 +11,7 @@
 
 ## Overview ##
 
-Simpple CRUD JavaScript + Laravel
+Simple CRUD JavaScript + Laravel
 
 ## Requirements ##
 
