@@ -25,6 +25,9 @@
         rel="stylesheet"
     >
 
+    <!-- Our JavaScript -->
+    @vite('resources/js/products.js')
+
 </head>
 
 
@@ -349,10 +352,6 @@
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     ></script>
-
-
-    <!-- Our JavaScript -->
-    <script src="/js/products.js"></script>
 
 </body>
 
