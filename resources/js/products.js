@@ -30,6 +30,8 @@ import ProductPagination
 import ProductForm
     from './products/ProductForm.js';
 
+import DeleteConfirmationModal
+    from './products/DeleteConfirmationModal.js';
 
 // ======================================================
 // HTTP CLIENT
@@ -326,7 +328,6 @@ const clearSearchButton =
         'clearSearchButton'
     );
 
-
 // ======================================================
 // CREATE UI COMPONENTS
 // ======================================================
@@ -345,6 +346,22 @@ const productForm =
         priceInput,
         stockInput,
         cancelButton
+    );
+
+
+// ======================================================
+// CREATE DELETE CONFIRMATION MODAL
+// ======================================================
+
+const deleteModalElement =
+    document.getElementById(
+        'deleteConfirmationModal'
+    );
+
+
+const deleteModal =
+    new DeleteConfirmationModal(
+        deleteModalElement
     );
 
 
@@ -589,7 +606,6 @@ form.addEventListener(
     }
 );
 
-
 // ======================================================
 // EDIT PRODUCT
 // ======================================================
@@ -598,43 +614,30 @@ productsTable.addEventListener(
     'click',
     event => {
 
-        // Find the Edit button.
         const button =
             event.target.closest(
                 '.edit-product'
             );
 
-
-        // If the clicked element wasn't
-        // an Edit button, do nothing.
         if (!button) {
-
             return;
         }
 
-
-        // Get product ID.
         const id =
             Number(
                 button.dataset.id
             );
 
-
-        // Find product in current page.
         const product =
             products.find(
                 product =>
                     product.id === id
             );
 
-
         if (!product) {
-
             return;
         }
 
-
-        // Populate the form.
         productForm.setProduct(
             product
         );
@@ -645,37 +648,62 @@ productsTable.addEventListener(
 // ======================================================
 // DELETE PRODUCT
 // ======================================================
+//
+// The application handles the workflow:
+//
+// 1. User clicks Delete.
+// 2. Show confirmation modal.
+// 3. Wait for user's decision.
+// 4. If confirmed, call ProductService.
+// 5. Reload the products.
+//
+// Notice that this code doesn't know how the modal
+// itself works.
+//
+// It only asks:
+// "Did the user confirm?"
+//
+// This keeps the responsibilities separated.
+// ======================================================
 
 productsTable.addEventListener(
     'click',
     async event => {
 
-        // Find Delete button.
+        // Find the Delete button.
         const button =
             event.target.closest(
                 '.delete-product'
             );
 
 
+        // If this wasn't a Delete button,
+        // do nothing.
         if (!button) {
 
             return;
         }
 
 
+        // Get the product ID.
         const id =
             Number(
                 button.dataset.id
             );
 
 
-        // Ask for confirmation.
+        // Show the confirmation modal.
+        //
+        // The modal returns:
+        //
+        // true  → user confirmed
+        // false → user cancelled
+        //
         const confirmed =
-            confirm(
-                'Are you sure you want to delete this product?'
-            );
+            await deleteModal.show();
 
 
+        // User cancelled.
         if (!confirmed) {
 
             return;
@@ -684,14 +712,15 @@ productsTable.addEventListener(
 
         try {
 
+            // Delete through the service.
             await productService.deleteProduct(
                 id
             );
 
 
-            // If the deleted product was
-            // the only product on the page,
-            // move to the previous page.
+            // If the deleted product was the only
+            // product on the current page and we're
+            // not on the first page, go back one page.
             if (
                 products.length === 1 &&
                 currentPage > 1
@@ -704,6 +733,7 @@ productsTable.addEventListener(
 
             } else {
 
+                // Otherwise reload the current page.
                 await loadProducts(
                     currentPage,
                     currentSearch

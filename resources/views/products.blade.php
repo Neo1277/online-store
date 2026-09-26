@@ -25,11 +25,14 @@
         rel="stylesheet"
     >
 
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
     <!-- Our JavaScript -->
     @vite('resources/js/products.js')
 
 </head>
-
 
 <body class="bg-light">
 
@@ -346,6 +349,83 @@
         </div>
 
     </main>
+    
+    <!-- ================================================== -->
+    <!-- DELETE CONFIRMATION MODAL                         -->
+    <!-- ================================================== -->
+
+    <div
+        class="modal fade"
+        id="deleteConfirmationModal"
+        tabindex="-1"
+        aria-labelledby="deleteConfirmationModalLabel"
+        aria-hidden="true"
+    >
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <!-- Modal header -->
+                <div class="modal-header">
+
+                    <h5
+                        class="modal-title"
+                        id="deleteConfirmationModalLabel"
+                    >
+                        Confirm deletion
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+
+                </div>
+
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                    <p class="mb-0">
+                        Are you sure you want to delete this product?
+                    </p>
+
+                    <p class="text-muted small mt-2 mb-0">
+                        This action cannot be undone.
+                    </p>
+
+                </div>
+
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-cancel-delete
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-danger"
+                        data-confirm-delete
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 
     <!-- Bootstrap 5 JavaScript -->
