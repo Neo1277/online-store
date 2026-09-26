@@ -29,6 +29,16 @@ git clone https://github.com/Neo1277/online-store.git
 cd online-store
 ``` 
 
+*   Install npm dependencies
+```
+npm install
+``` 
+
+*   In another console run
+```
+npm run dev
+``` 
+
 *   Install PHP dependencies
 ```
 composer install
